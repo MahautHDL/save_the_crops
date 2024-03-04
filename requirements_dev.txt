@@ -7,6 +7,7 @@ wheel
 # python and debugging
 ipdb
 ipykernel
+python-dotenv==0.20.0
 
 # jupyter and data viz
 matplotlib
