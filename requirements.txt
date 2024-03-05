@@ -3,7 +3,7 @@ numpy
 pandas
 
 # Uncomment if you use sklearn
-# scikit-learn
+scikit-learn
 
 # Install the correct TensorFlow version
 # Uncomment if you use TensorFlow
