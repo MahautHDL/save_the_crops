@@ -1,8 +1,11 @@
 # TODO: Import your package, replace this by explicit imports of what you need
-from packagename.main import predict
+#from packagename.main import predict
 
-from fastapi import FastAPI
+import uvicorn
+#import uuid
+from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
 
@@ -18,10 +21,11 @@ app.add_middleware(
 @app.get("/")
 def root():
     return {
-        'message': "Hi, The API is running!"
+        'message': 'Hi, The API is running!'
     }
 
 # Endpoint for https://your-domain.com/predict?input_one=154&input_two=199
+'''
 @app.get("/predict")
 def get_predict(input_one: float,
             input_two: float):
@@ -36,3 +40,19 @@ def get_predict(input_one: float,
             'input_two': input_two
         }
     }
+'''
+@app.post('/upload')
+def prediction_file(file:UploadFile ):
+    '''pp_dogcat_image = preprocessing.image.load_img(dogcat_img, target_size=(150, 150))
+    pp_dogcat_image_arr = preprocessing.image.img_to_array(pp_dogcat_image)
+    input_arr = np.array([pp_dogcat_image_arr])
+    prediction = np.argmax(model.predict(input_arr), axis=-1)
+    print(prediction)'''
+
+
+    name = file.filename
+    return {'filename': name}
+
+
+if __name__ == '__main__':
+    uvicorn.run(app, host='localhost', port=8000)
