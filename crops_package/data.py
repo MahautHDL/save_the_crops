@@ -46,3 +46,19 @@ def preprocessor_df(df):
     )
 
     return generator
+
+def preprocessor_test(df):
+    datagen = ImageDataGenerator(
+        rescale=1./255,
+
+    )
+    generator = datagen.flow_from_dataframe(
+        df,
+        x_col='filename',
+        y_col='class',
+        target_size=(224, 224),
+        batch_size=32,
+        class_mode='categorical',
+        shuffle=True
+    )
+    return generator
