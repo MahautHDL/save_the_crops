@@ -36,7 +36,7 @@ def preprocessor_df(df):
     )
 
     generator = datagen.flow_from_dataframe(
-        df=df,
+        df,
         x_col='filename',
         y_col='class',
         target_size=(224, 224),
