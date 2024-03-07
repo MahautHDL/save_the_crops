@@ -3,15 +3,14 @@ import os
 import time
 import pickle
 
-from colorama import Fore, Style
+#from colorama import Fore, Style
 from tensorflow import keras
-from google.cloud import storage
 
 # from taxifare.params import *
-import mlflow
-from mlflow.tracking import MlflowClient
+#import mlflow
+#from mlflow.tracking import MlflowClient
 
-def save_model(model: keras.Model = None) -> None:
+'''def save_model(model: keras.Model = None) -> None:
     """
     Persist trained model locally on the hard drive at f"{LOCAL_REGISTRY_PATH}/models/{timestamp}.h5"
     - if MODEL_TARGET='gcs', also persist it in your bucket on GCS at "models/{timestamp}.h5" --> unit 02 only
@@ -34,7 +33,7 @@ def save_model(model: keras.Model = None) -> None:
 
     print("✅ Model saved to MLflow")
 
-    return None
+    return None'''
 
 
 
@@ -52,7 +51,7 @@ def load_model(stage="Production") -> keras.Model:
     """
 
 
-    local_model_paths = 'TBD'
+    local_model_paths = '/Users/thomasverpoort/code/MahautHDL/save_the_crops/models/first_model_07_03'
 
     model = keras.models.load_model(local_model_paths)
 
