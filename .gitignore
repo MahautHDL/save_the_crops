@@ -27,6 +27,7 @@ raw_data/
 # data/
 
 # Saved models
+callbacks/
 models/
 *.joblib
 *.h5
