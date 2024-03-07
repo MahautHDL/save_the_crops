@@ -6,7 +6,7 @@ import uvicorn
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 import crops_package.model
-#from crops_package.data import preprocessor
+from crops_package.data import prepocessor_img
 #from models.registry import load_model
 
 app = FastAPI()
@@ -55,11 +55,11 @@ def prediction_file(file:UploadFile ):
     X_processed = preprocessor(X_pred) --wouter
     y_pred = app.state.model.predict(X_processed)'''
 
+    img = prepocessor_img(file)
+    predictions = app.state.model.predict(img)
 
-    #return {'outcome': y_pred}
 
-    name =file.filename
-    return {'filename': name}
+    return {'class name': predictions}
 
 if __name__ == '__main__':
     uvicorn.run(app, host='localhost', port=8000)
