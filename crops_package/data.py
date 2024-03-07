@@ -6,8 +6,9 @@ from tensorflow.keras.preprocessing.image import img_to_array, load_img
 
 from sklearn.model_selection import train_test_split
 
-def split_data(df):
-    train_df, test_df = train_test_split(df, test_size=0.15, random_state=42)
+def split_data(df, size_to_trow=0.2):
+    train_df, to_trow = train_test_split(df, test_size=size_to_trow, random_state=42)
+    train_df, test_df = train_test_split(train_df, test_size=0.15, random_state=42)
     train_df, val_df = train_test_split(train_df, test_size=0.15, random_state=42)
 
     return train_df, val_df, test_df
