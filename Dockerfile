@@ -1,5 +1,4 @@
 FROM python:3.8.6-buster
-
 WORKDIR /prod
 
 RUN pip install --upgrade pip
@@ -8,7 +7,7 @@ COPY requirements_dev.txt requirements.txt
 RUN pip install -r requirements.txt
 
 COPY crops_package crops_package
-COPY models models
+COPY setup.py setup.py
 RUN pip install .
 
 COPY Makefile Makefile

@@ -10,8 +10,8 @@ from sklearn.model_selection import train_test_split
 
 
 def split_data(df):
-    train_df, test_df = train_test_split(df, test_size=0.15, random_state=42)
-    train_df, val_df = train_test_split(train_df, test_size=0.15, random_state=42)
+    train_df, test_df = train_test_split(df, test_size=0.15, random_state=42, stratify=y)
+    train_df, val_df = train_test_split(train_df, test_size=0.15, random_state=42, stratify=y)
     return train_df, val_df, test_df
 
 
