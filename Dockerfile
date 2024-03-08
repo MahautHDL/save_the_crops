@@ -1,6 +1,6 @@
 FROM python:3.10.6-buster
 
-WORKDIR /prod
+WORKDIR /app
 
 RUN pip install --upgrade pip
 
