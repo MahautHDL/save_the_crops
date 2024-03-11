@@ -78,9 +78,11 @@ async def prediction_file(file:UploadFile=File(...)):
     img = prepocessor_img(input_image)
 
     predictions = app.state.model.predict(img)
-    outcome = class_names[np.argmax(predictions)]
+    outcome = class_names[np.argmax(predictions)].split()
+    plant_name = outcome[0]
+    plant_disease = " ".join(outcome[1:])
 
-    return {'class name': outcome}
+    return {'plant': plant_name, 'disease' : plant_disease}
 
 
 if __name__ == '__main__':

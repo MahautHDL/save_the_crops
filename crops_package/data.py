@@ -30,7 +30,7 @@ def preprocessor_df(df):
         df,
         x_col='filename',
         y_col='class',
-        target_size=(224, 224),
+        target_size=(128, 128),
         batch_size=32,
         class_mode='categorical',
         shuffle=True
@@ -46,7 +46,7 @@ def preprocessor_test(df):
         df,
         x_col='filename',
         y_col='class',
-        target_size=(224, 224),
+        target_size=(128, 128),
         batch_size=32,
         class_mode='categorical',
         shuffle=True
@@ -63,7 +63,7 @@ def prepocessor_img_from_path(file_path):
         img = tf.io.read_file(file_path)
         img = tf.image.decode_image(img, channels=3)
     # Resizing the image
-    img = tf.image.resize(img, [224, 224])
+    img = tf.image.resize(img, [128, 128])
     # Add one dimension batch
     img = np.expand_dims(img, axis=0)
     return img
@@ -72,7 +72,7 @@ def prepocessor_img_from_path(file_path):
 def prepocessor_img(file):
     img = tf.image.decode_image(file, channels=3)
     # Resizing the image
-    img = tf.image.resize(img, [224, 224])
+    img = tf.image.resize(img, [128, 128])
     # Add one dimension batch
     img = np.expand_dims(img, axis=0)
     return img
