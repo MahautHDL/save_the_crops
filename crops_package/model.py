@@ -18,7 +18,7 @@ import datetime
 import os
 
 def fit_and_save_model(model, X, validation_data, model_name, split=0.3, epochs=100):
-    es = EarlyStopping(patience = 5, verbose = 2)
+    es = EarlyStopping(patience = 5, verbose = 2, restore_best_weights=True)
 
     history = model.fit(X,
                         validation_data = validation_data,
