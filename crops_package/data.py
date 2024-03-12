@@ -8,40 +8,46 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 
-
 def check_for_errors_and_create_excel():
     """
     Will check if pictures are not corrupted.
-    Then it will create and save a csv with the filename and class of the non-corrupted pictures.
-    Output is a dataframe from this csv.
+    Then it will split them into the different plants.
+    It will create and save a csv with the filename and class of the non-corrupted pictures.
+    No output is given (4 csv_files are saved).
     """
+
     data_link = os.environ.get("LOCAL_PATH")
+    plants = ['Tomato', 'Cassava', 'Cashew', 'Maize']
+    crop_diseases = os.listdir(data_link)
 
-    data = pd.DataFrame(columns=["filename", "class"])
+    for plant in plants:
+        data = pd.DataFrame(columns=["filename", "class"])
+        for disease in crop_diseases:
+            if plant in disease:
+                os.chdir(f'{data_link}{disease}')
+                filenames = os.listdir(f"{data_link}{disease}")
 
-    crops = os.listdir(data_link)
+                for index, filename in enumerate(filenames):
+                    if filename.endswith(".jpg"):
 
-    for i in range(0,len(crops)):
-        plant_disease_name = crops[i]
-        os.chdir(f'{data_link}{plant_disease_name}')
+                        try:
+                            plt.imread(filename)
+                            data.loc[len(data)] = [f'{disease}/{filename}', disease]
 
-        filenames = os.listdir(f"{data_link}{plant_disease_name}")
+                        except:
+                            pass
+                    else:
+                        pass
 
-        for index, filename in enumerate(filenames):
-            if filename.endswith(".jpg"):
+                print(f"{disease} finished.")
 
-                try:
-                    plt.imread(filename)
-                    data.loc[len(data)] = [f'{plant_disease_name}/{filename}', plant_disease_name]
 
-                except:
-                    pass
-            else:
-                pass
+        globals()[f"{plant.lower()}_df"] = data
+        data.to_csv(f"{os.environ.get('DATA_PATH')}{plant.lower()}.csv", index=False)
 
-    data.to_csv(f'{os.environ.get("DATA_PATH")}data.csv', index=False)
+        print(f"{plant} csv has been saved.")
 
-    return data
+    print("All csv's have been saved")
 
 
 def split_data(df):
