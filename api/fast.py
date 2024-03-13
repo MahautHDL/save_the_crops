@@ -12,16 +12,10 @@ from crops_package.registry import load_model
 
 app = FastAPI()
 app.state.model = load_model(plant='all')
-app.state.cashew_model = load_model(plant='all')
-app.state.cassava_model = load_model(plant='all')
-app.state.maize_model = load_model(plant='all')
-app.state.tomato_model = load_model(plant='all')
-
-
-# app.state.cashew_model = load_model(plant='cashew')
-# app.state.cassava_model = load_model(plant='cassava')
-# app.state.maize_model = load_model(plant='maize')
-# app.state.tomato_model = load_model(plant='tomato')
+app.state.cashew_model = load_model(plant='cashew')
+app.state.cassava_model = load_model(plant='cassava')
+app.state.maize_model = load_model(plant='maize')
+app.state.tomato_model = load_model(plant='tomato')
 
 
 app.add_middleware(
@@ -91,7 +85,7 @@ async def create_upload_file(plant: str = Form(...), file: UploadFile = File(...
     input_image = await file.read()
 
     # convert the image to a tensor and resize it
-    img = prepocessor_img(input_image)
+    img = prepocessor_img(input_image, plant=plant)
 
 
     predictions = models_names[plant].predict(img)
