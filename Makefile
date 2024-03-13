@@ -57,17 +57,12 @@ docker_run_local_interactively:
 	docker run -it \
 		-e PORT=8000 -p $(DOCKER_LOCAL_PORT):8000 \
 		--env-file .env \
-		$(DOCKER_IMAGE_NAME):local \
-		bash
+		$(DOCKER_IMAGE_NAME):local
 
 # Cloud images - using architecture compatible with cloud, i.e. linux/amd64
 
 DOCKER_IMAGE_PATH := $(GCP_REGION)-docker.pkg.dev/$(GCP_PROJECT_ID)/$(DOCKER_REPO_NAME)/$(DOCKER_IMAGE_NAME)
 
-docker_build:
-	docker build \
-		--platform linux/amd64 \
-		-t $(DOCKER_IMAGE_PATH):prod .
 
 # Alternative if previous doesn´t work. Needs additional setup.
 # Probably don´t need this. Used to build arm on linux amd64
@@ -88,8 +83,7 @@ docker_run_interactively:
 		--platform linux/amd64 \
 		-e PORT=8000 -p $(DOCKER_LOCAL_PORT):8000 \
 		--env-file .env \
-		$(DOCKER_IMAGE_PATH):prod \
-		bash
+		$(DOCKER_IMAGE_PATH):prod /bin/bash
 
 # Push and deploy to cloud
 
@@ -108,6 +102,7 @@ docker_push:
 docker_deploy:
 	gcloud run deploy \
 		--image $(DOCKER_IMAGE_PATH):prod \
+		--cpu=2 \
 		--memory $(GAR_MEMORY) \
 		--region $(GCP_REGION) \
 		--env-vars-file .env.yaml

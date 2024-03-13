@@ -31,5 +31,4 @@ def load_model(stage="Production", plant='all') -> keras.Model:
     model_uri = model_versions[0].source
     model = mlflow.tensorflow.load_model(model_uri=model_uri)
 
-
     return model

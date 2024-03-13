@@ -23,6 +23,7 @@ app.state.tomato_model = load_model(plant='all')
 # app.state.maize_model = load_model(plant='maize')
 # app.state.tomato_model = load_model(plant='tomato')
 
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Allows all origins
