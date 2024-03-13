@@ -62,7 +62,7 @@ docker_run_local_interactively:
 
 # Cloud images - using architecture compatible with cloud, i.e. linux/amd64
 
-DOCKER_IMAGE_PATH := $(GCP_REGION)-docker.pkg.dev/$(GCP_PROJECT)/$(DOCKER_REPO_NAME)/$(DOCKER_IMAGE_NAME)
+DOCKER_IMAGE_PATH := $(GCP_REGION)-docker.pkg.dev/$(GCP_PROJECT_ID)/$(DOCKER_REPO_NAME)/$(DOCKER_IMAGE_NAME)
 
 docker_build:
 	docker build \
@@ -77,7 +77,7 @@ docker_build_alternative:
 		-t $(DOCKER_IMAGE_PATH):prod .
 
 docker_run:
-	docker run \
+	docker run -it \
 		--platform linux/amd64 \
 		-e PORT=8000 -p $(DOCKER_LOCAL_PORT):8000 \
 		--env-file .env \
