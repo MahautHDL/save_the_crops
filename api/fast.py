@@ -12,10 +12,17 @@ from crops_package.registry import load_model
 
 app = FastAPI()
 app.state.model = load_model(plant='all')
-app.state.cashew_model = load_model(plant='cashew')
-app.state.cassava_model = load_model(plant='cassava')
-app.state.maize_model = load_model(plant='maize')
-app.state.tomato_model = load_model(plant='tomato')
+app.state.cashew_model = load_model(plant='all')
+app.state.cassava_model = load_model(plant='all')
+app.state.maize_model = load_model(plant='all')
+app.state.tomato_model = load_model(plant='all')
+
+
+# app.state.cashew_model = load_model(plant='cashew')
+# app.state.cassava_model = load_model(plant='cassava')
+# app.state.maize_model = load_model(plant='maize')
+# app.state.tomato_model = load_model(plant='tomato')
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -50,9 +57,13 @@ def get_predict(input_one: float,
     }
 '''
 
-@app.post('/uploadfile/')
+@app.post('/uploadfile')
 async def create_upload_file(plant: str = Form(...), file: UploadFile = File(...)):
 
+    all_class_names = ['Cashew anthracnose','Cashew gumosis','Cashew healthy','Cashew leaf miner','Cashew red rust',
+                        'Cassava bacterial blight','Cassava brown spot','Cassava green mite','Cassava healthy','Cassava mosaic',
+                        'Maize fall armyworm','Maize grasshoper','Maize healthy','Maize leaf beetle','Maize leaf blight','Maize leaf spot','Maize streak virus',
+                        'Tomato healthy','Tomato leaf blight','Tomato leaf curl','Tomato septoria leaf spot','Tomato verticulium wilt']
     cashew_class_names = ['Cashew anthracnose','Cashew gumosis','Cashew healthy','Cashew leaf miner','Cashew red rust']
     cassava_class_names = ['Cassava bacterial blight','Cassava brown spot','Cassava green mite','Cassava healthy','Cassava mosaic']
     maize_class_names = ['Maize fall armyworm','Maize grasshoper','Maize healthy','Maize leaf beetle','Maize leaf blight','Maize leaf spot','Maize streak virus']
@@ -60,6 +71,7 @@ async def create_upload_file(plant: str = Form(...), file: UploadFile = File(...
 
 
     class_names = {
+        'all': all_class_names,
         'cashew': cashew_class_names,
         'cassava': cassava_class_names,
         'maize': maize_class_names,
@@ -68,6 +80,7 @@ async def create_upload_file(plant: str = Form(...), file: UploadFile = File(...
 
 
     models_names = {
+        'all': app.state.model,
         'cashew': app.state.cashew_model,
         'cassava': app.state.cassava_model,
         'maize': app.state.maize_model,
@@ -91,28 +104,10 @@ async def create_upload_file(plant: str = Form(...), file: UploadFile = File(...
 @app.post('/upload')
 async def prediction_file(file:UploadFile=File(...)):
 
-    class_names = ['Cashew anthracnose',
-                    'Cashew gumosis',
-                    'Cashew healthy',
-                    'Cashew leaf miner',
-                    'Cashew red rust',
-                    'Cassava bacterial blight',
-                    'Cassava brown spot',
-                    'Cassava green mite',
-                    'Cassava healthy',
-                    'Cassava mosaic',
-                    'Maize fall armyworm',
-                    'Maize grasshoper',
-                    'Maize healthy',
-                    'Maize leaf beetle',
-                    'Maize leaf blight',
-                    'Maize leaf spot',
-                    'Maize streak virus',
-                    'Tomato healthy',
-                    'Tomato leaf blight',
-                    'Tomato leaf curl',
-                    'Tomato septoria leaf spot',
-                    'Tomato verticulium wilt']
+    class_names = ['Cashew anthracnose','Cashew gumosis','Cashew healthy','Cashew leaf miner','Cashew red rust',
+                'Cassava bacterial blight','Cassava brown spot','Cassava green mite','Cassava healthy','Cassava mosaic',
+                'Maize fall armyworm','Maize grasshoper','Maize healthy','Maize leaf beetle','Maize leaf blight','Maize leaf spot','Maize streak virus',
+                'Tomato healthy','Tomato leaf blight','Tomato leaf curl','Tomato septoria leaf spot','Tomato verticulium wilt']
 
     # async to use the await
     input_image = await file.read()
