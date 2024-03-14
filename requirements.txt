@@ -19,4 +19,4 @@ fastapi
 uvicorn
 python-multipart
 
-mlflow==2.10.2
+mlflow==2.11.1
