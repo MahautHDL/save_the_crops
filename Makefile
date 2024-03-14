@@ -63,6 +63,10 @@ docker_run_local_interactively:
 
 DOCKER_IMAGE_PATH := $(GCP_REGION)-docker.pkg.dev/$(GCP_PROJECT_ID)/$(DOCKER_REPO_NAME)/$(DOCKER_IMAGE_NAME)
 
+docker_build:
+	docker build \
+		--platform linux/amd64 \
+		-t $(DOCKER_IMAGE_PATH):prod .
 
 # Alternative if previous doesn´t work. Needs additional setup.
 # Probably don´t need this. Used to build arm on linux amd64
