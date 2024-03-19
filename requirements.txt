@@ -1,0 +1,22 @@
+# data science
+numpy
+pandas
+
+# Uncomment if you use sklearn
+scikit-learn
+
+# Install the correct TensorFlow version
+# Uncomment if you use TensorFlow
+tensorflow==2.15.0
+tf_keras==2.15.0
+TensorBoard
+
+# Google Cloud
+# google-cloud-storage
+
+# API
+fastapi
+uvicorn
+python-multipart
+
+mlflow==2.11.1
