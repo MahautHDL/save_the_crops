@@ -8,7 +8,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 
-def check_for_errors_and_create_excel():
+def check_for_errors_and_create_excel(data_link):
     """
     Will check if pictures are not corrupted.
     Then it will split them into the different plants.
@@ -16,7 +16,6 @@ def check_for_errors_and_create_excel():
     No output is given (4 csv_files are saved).
     """
 
-    data_link = os.environ.get("LOCAL_PATH")
     plants = ['Tomato', 'Cassava', 'Cashew', 'Maize']
     crop_diseases = os.listdir(data_link)
 
@@ -24,8 +23,8 @@ def check_for_errors_and_create_excel():
         data = pd.DataFrame(columns=["filename", "class"])
         for disease in crop_diseases:
             if plant in disease:
-                os.chdir(f'{data_link}{disease}')
-                filenames = os.listdir(f"{data_link}{disease}")
+                os.chdir(f'{data_link}/{disease}')
+                filenames = os.listdir(f"{data_link}/{disease}")
 
                 for index, filename in enumerate(filenames):
                     if filename.endswith(".jpg"):
@@ -43,7 +42,7 @@ def check_for_errors_and_create_excel():
 
 
         globals()[f"{plant.lower()}_df"] = data
-        data.to_csv(f"{os.environ.get('DATA_PATH')}{plant.lower()}.csv", index=False)
+        data.to_csv(f"{os.environ.get('DATA_PATH')}/{plant.lower()}.csv", index=False)
 
         print(f"{plant} csv has been saved.")
 
@@ -70,15 +69,8 @@ def split_and_reduce_data(df, size_to_throw=0.001):
 
 def preprocessor_df(df):
     datagen = ImageDataGenerator(
-        rescale=1./255,
-        rotation_range=40,
-        width_shift_range=0.2,
-        height_shift_range=0.2,
-        shear_range=0.2,
-        zoom_range=0.2,
-        horizontal_flip=True,
-        fill_mode='nearest'
     )
+
     generator = datagen.flow_from_dataframe(
         df,
         x_col='filename',
@@ -88,12 +80,11 @@ def preprocessor_df(df):
         class_mode='categorical',
         shuffle=True
     )
-    return generator
 
+    return generator
 
 def preprocessor_test(df):
     datagen = ImageDataGenerator(
-        rescale=1./255,
     )
     generator = datagen.flow_from_dataframe(
         df,
