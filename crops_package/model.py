@@ -48,11 +48,10 @@ def fit_and_save_model(model, X, validation_data, crop, patience=5, epochs = 100
                                  )
 
     # Save model
-    model.save(f'../../models/{crop}-model.keras')
+    model.save(f'../../models/saved_models/{crop}-model.keras')
     return history
 
-from tensorflow.keras import layers
-from tensorflow.keras import models
+from tensorflow.keras import layers, models
 
 def initialize_model(nr_of_classes):
     pretrained_model = tf.keras.applications.ResNet101V2(
@@ -76,5 +75,21 @@ def initialize_model(nr_of_classes):
                   optimizer='adam',
                   run_eagerly=True,
                   metrics=['accuracy', tf.keras.metrics.Precision(), tf.keras.metrics.Recall()])
+
+    return model
+
+def initialize_model_test(nr_of_classes):
+    model = tf.keras.Sequential([
+            tf.keras.layers.Flatten(input_shape=(224, 224, 3)),
+            tf.keras.layers.Dense(nr_of_classes, activation="relu"),
+            # tf.keras.layers.Dense(nr_of_classes, activation='softmax')
+        ])
+
+    ### Model compilation
+
+    model.compile(loss='categorical_crossentropy',
+                  optimizer='adam',
+                  run_eagerly=True,
+                  metrics=['accuracy'])
 
     return model
