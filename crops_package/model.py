@@ -44,7 +44,7 @@ def fit_and_save_model(model, X, validation_data, crop, patience=5, epochs = 100
                     batch_size = 32,
                     callbacks = [es,
                                 create_tensorboard_callback("../../callbacks/", # save experiment logs here
-                                experiment_name=f"{crop}_model")] # name of log files]
+                                experiment_name=f"{crop}_model")] # name of log files
                                  )
 
     # Save model
@@ -93,3 +93,25 @@ def initialize_model_test(nr_of_classes):
                   metrics=['accuracy'])
 
     return model
+
+def plot_history(history, title='', axs=None, exp_name=""):
+    if axs is not None:
+        ax1, ax2 = axs
+    else:
+        f, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
+
+    if len(exp_name) > 0 and exp_name[0] != '_':
+        exp_name = '_' + exp_name
+    plt.suptitle(title)
+    ax1.plot(history.history['loss'], label = 'train' + exp_name)
+    ax1.plot(history.history['val_loss'], label = 'val' + exp_name)
+    ax1.set_ylim(0., 2.2)
+    ax1.set_title('loss')
+    ax1.legend()
+
+    ax2.plot(history.history['accuracy'], label='train accuracy'  + exp_name)
+    ax2.plot(history.history['val_accuracy'], label='val accuracy'  + exp_name)
+    ax2.set_ylim(0.25, 1.)
+    ax2.set_title('Accuracy')
+    ax2.legend()
+    return (ax1, ax2)
