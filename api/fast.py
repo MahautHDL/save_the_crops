@@ -33,24 +33,6 @@ def root():
         'message': 'Hi, The API is running!'
     }
 
-
-'''
-@app.get("/predict")
-def get_predict(input_one: float,
-            input_two: float):
-    # TODO: Do something with your input
-    # i.e. feed it to your model.predict, and return the output
-    # For a dummy version, just return the sum of the two inputs and the original inputs
-    prediction = float(input_one) + float(input_two)
-    return {
-        'prediction': prediction,
-        'inputs': {
-            'input_one': input_one,
-            'input_two': input_two
-        }
-    }
-'''
-
 @app.post('/uploadfile')
 async def create_upload_file(plant: str = Form(...), file: UploadFile = File(...)):
 
